@@ -19,7 +19,6 @@ def merge_sort(arr)
     i = 0
     j = 0
     until i > left_sort.length - 1 || j > right_sort.length - 1
-      #binding.pry
       if left_sort[i] < right_sort[j]
         merged << left_sort[i]
         i +=1
@@ -42,4 +41,24 @@ def merge_sort(arr)
   end
 end
 
-p merge_sort([1,2,3,4,5])
+def merge_sort_clean(arr)
+  return arr if arr.length < 2
+
+  sorted_left = merge_sort_clean(arr[0...arr.length/2])
+  sorted_right = merge_sort_clean(arr[arr.length/2..-1])
+  merged_arr = []
+
+  until sorted_left.empty? || sorted_right.empty?
+    if sorted_left.first < sorted_right.first
+      merged_arr << sorted_left.shift
+    elsif sorted_right.first < sorted_left.first
+      merged_arr << sorted_right.shift
+    else
+      merged_arr << sorted_left.shift
+      merged_arr << sorted_right.shift
+    end
+  end
+  merged_arr + sorted_left + sorted_right
+end
+
+p merge_sort_clean([9, 1, 4, 1, 7, 2, 5])
